@@ -73,3 +73,53 @@ public class LeaderBoardScript : MonoBehaviour {
 
 	}
 }
+
+using UnityEngine;
+using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
+
+public class ScoreUpdateScript : MonoBehaviour {
+
+	private int score;
+	private int hScore;
+	private int beatHighscore = 0;
+	
+	void Awake()
+	{
+		score = PlayerPrefs.GetInt ("Score");
+		hScore = PlayerPrefs.GetInt ("highscore");
+		if (score > hScore) 
+		{
+			beatHighscore++;
+		}
+	}
+
+	void Start()
+	{
+		if (beatHighscore > 0)
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQCQ",1.0f,
+				(bool success) =>{
+			});
+		}
+		if (beatHighscore > 7)
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQCg",1.0f,
+				(bool success) =>{
+			});
+		}
+	}
+
+	void Update()
+	{
+		Social.ReportScore (score,
+		                    "CgkI_O3Kp-cdEAIQBQ",
+		                    (bool success) =>{
+		});
+	}
+
+}
+
