@@ -1,0 +1,63 @@
+using UnityEngine;
+using System.Collections;
+
+public class CameraBehaviourStartScript : MonoBehaviour {
+
+	static public int startZR = 0;
+	Transform player;
+	public float horizontalOffset = 7.5f;
+	// Use this for initialization
+	void Start () {
+		player = GameObject.FindGameObjectWithTag("Player").transform;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		var x = player.position.x - 2;
+		
+		transform.position = new Vector3 (x + horizontalOffset, transform.position.y, -10);
+	
+		if (Input.touches.Length <= 0) {
+			
+		} 
+		else 
+		{
+			for(int i = 0; i < Input.touchCount; i++)
+			{
+					if(Input.GetTouch(i).phase == TouchPhase.Ended)
+					{   
+						if(Input.GetTouch(i).position.y < Screen.height * 0.8f)
+						{
+							Application.LoadLevel (2);
+						}
+						
+					}
+				}
+
+		}
+	}
+
+}
+
+using UnityEngine;
+using System.Collections;
+
+public class CameraBehaviour : MonoBehaviour {
+	
+	Transform player;
+	public float horizontalOffset = 7.5f;
+
+	// Use this for initialization
+	void Start () {
+		player = GameObject.FindGameObjectWithTag("Player").transform;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		var x = player.position.x - 2;
+		
+		transform.position = new Vector3 (x + horizontalOffset, transform.position.y, -10);
+
+	}
+
+}
