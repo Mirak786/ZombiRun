@@ -1,6 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
+public class ScoreScript : MonoBehaviour{
+
+	public int playerScore = 0;
+
+	void OnDisable()
+	{
+		PlayerPrefs.SetInt("Score", playerScore);
+
+	}
+
+	void OnGUI(){
+		GUI.Label(new Rect (10, 10, 500, 30), "Score: " + playerScore);
+	}
+
+}
+
+
+using UnityEngine;
+using System.Collections;
+
 public class CurrentScoreScript : MonoBehaviour {
 
 
