@@ -1,5 +1,75 @@
 using UnityEngine;
 using System.Collections;
+
+public class LoginToFacebook : MonoBehaviour {
+
+	private initAndLoginToFB facelog;
+	public Texture normalButton;
+	public Texture pressedButton;
+	
+	void Awake()
+	{
+		facelog = GameObject.Find("facebookManager").GetComponent<initAndLoginToFB>();
+	}
+	
+	void Update()
+	{
+		if (Input.touches.Length <= 0)
+		{
+			
+		}
+		else
+		{
+			for (int i = 0; i < Input.touchCount; i++)
+			{   
+				if (this.guiTexture.HitTest(Input.GetTouch(i).position))
+				{    
+
+					if (Input.GetTouch(i).phase == TouchPhase.Began)
+					{
+
+						this.guiTexture.texture = pressedButton;
+						//Handheld.Vibrate ();
+						audio.Play ();
+					}
+
+					else if (Input.GetTouch(i).phase == TouchPhase.Ended)
+					{   
+
+						this.guiTexture.texture = normalButton;
+
+						if(facelog.isEnabled)
+						{
+							if(!facelog.isLogged)
+							{
+								facelog.Login();
+								StartCoroutine(post());
+								
+							}
+						}
+						else
+						{
+							StartCoroutine(post());
+						}
+						
+						
+					}
+				}
+			}
+		}
+	}
+	
+	IEnumerator post()
+	{
+		yield return new WaitForSeconds(1f);
+		facelog.ShareOnFacebook();
+		
+	}
+}
+
+
+using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using Facebook;  
 
