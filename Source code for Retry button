@@ -1,0 +1,48 @@
+using UnityEngine;
+using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
+
+public class RetryButtonScript : MonoBehaviour {
+	static public bool bGround;
+	private int score;
+	public Texture normalButton;
+	public Texture pressedButton;
+
+	void Start()
+	{
+		score = PlayerPrefs.GetInt ("highscores");
+	}
+
+	void Update()
+	{
+		if (Input.touches.Length <= 0) {
+			
+		} 
+		else 
+		{
+			for(int i = 0; i < Input.touchCount; i++)
+			{
+				if(this.guiTexture.HitTest (Input.GetTouch (i).position))
+				{   
+
+					if(Input.GetTouch(i).phase == TouchPhase.Began)
+					{
+						this.guiTexture.texture = pressedButton;
+						audio.Play ();
+					}
+					else if(Input.GetTouch(i).phase == TouchPhase.Ended)
+					{   
+						this.guiTexture.texture = normalButton;
+						LogoScript.bGround++;
+						if(LogoScript.bGround > 4)
+						{
+							LogoScript.bGround = 0;
+						}
+						Application.LoadLevel (1);
+					}
+				}
+			}
+		}
+	}
+}
