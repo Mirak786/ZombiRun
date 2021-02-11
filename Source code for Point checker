@@ -1,0 +1,26 @@
+using UnityEngine;
+using System.Collections;
+
+public class PointChecker : MonoBehaviour {
+
+	PlayerScoreScript score;
+	AudioSource coins;
+	
+	void Awake()
+	{
+		score = GameObject.Find ("Score").GetComponent<PlayerScoreScript>();
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Player") 
+		{   
+			coins = GameObject.Find("CoinSound").gameObject.GetComponent<AudioSource>();
+			collider2D.enabled = false;
+			coins.Play();
+			score.playerScore +=1;
+			Destroy(this.gameObject);
+		} 
+	}
+
+}
