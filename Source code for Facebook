@@ -239,3 +239,20 @@ public class InviteFriendsFB : MonoBehaviour {
 	}
 }
 
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;  
+
+public class PushNotyfication : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		GameThrive.Init("3a44278e-819b-11e4-a5e4-af15c7614e0e", "201817471677", HandleNotification);
+	}
+	
+	private static void HandleNotification(string message, Dictionary<string, object> additionalData, bool isActive) 
+	{
+
+	}
+}
+
