@@ -1,0 +1,35 @@
+using UnityEngine;
+using System.Collections;
+
+public class DeadZScript : MonoBehaviour {
+
+	public float jumpForce = 1000f;
+
+	void Awake()
+	{
+		rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,0);
+		rigidbody2D.AddForce(new Vector2(0, jumpForce));
+	}
+
+}
+
+using UnityEngine;
+using System.Collections;
+
+public class DeadZRetryScript : MonoBehaviour {
+	
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		
+		if (other.gameObject.transform.parent) 
+		{
+			Destroy (other.gameObject.transform.parent.gameObject);
+			Application.LoadLevel(3);
+		} 
+		else 
+		{
+			Destroy (other.gameObject);
+			Application.LoadLevel(3);
+		}
+	}
+}
