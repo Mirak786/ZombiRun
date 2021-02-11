@@ -1,0 +1,82 @@
+using UnityEngine;
+using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
+
+public class AchievementScript : MonoBehaviour {
+
+	private int score;
+	private int hScore;
+	private int beatHighscore = 0;
+
+	void Awake()
+	{
+		score = PlayerPrefs.GetInt ("Score");
+		hScore = PlayerPrefs.GetInt ("highscore");
+		if (score > hScore) 
+		{
+			beatHighscore++;
+		}
+	}
+	void Start()
+	{
+		if (score > 4)
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQAQ",1.0f,
+				(bool success) =>{
+			});
+		}
+		if (score > 9) 
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQAg", 1.0f,
+				(bool success) =>{
+			});
+		}
+		if (score > 99)
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQBg",1.0f,
+				(bool success) =>{
+			});
+		}
+		if (CharacterMove.sJumpsCompleted > 9) 
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQCA", 1.0f,
+				(bool success) => {
+			});
+		}
+		if (CameraBehaviourStartScript.startZR >= 1) 
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQCw", 1.0f,
+				(bool success) => {
+			});
+		}
+		if (CameraBehaviourStartScript.startZR >= 100) 
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQDA", 1.0f,
+				(bool success) => {
+			});
+		}
+		if (CameraBehaviourStartScript.startZR >= 500) 
+		{
+			Social.ReportProgress (
+				"CgkI_O3Kp-cdEAIQDQ", 1.0f,
+				(bool success) => {
+			});
+		}
+	}
+
+	void Update()
+	{
+		Social.ReportScore (score,
+		                    "CgkI_O3Kp-cdEAIQBQ",
+		                    (bool success) =>{
+		});
+	}
+	
+}
