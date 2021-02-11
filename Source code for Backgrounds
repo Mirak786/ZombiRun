@@ -1,0 +1,79 @@
+using UnityEngine;
+using System.Collections;
+
+public class BackGround1Script : MonoBehaviour {
+
+	static public bool bGround1;
+
+	void Awake()
+	{
+		if (LogoScript.bGround == 0) 
+		{
+			this.guiTexture.enabled = true;
+		} 
+		else if (LogoScript.bGround !=0) 
+		{
+			this.guiTexture.enabled = false;
+		}
+	}
+}
+
+using UnityEngine;
+using System.Collections;
+
+public class Background2Script : MonoBehaviour {
+
+	static public bool bGround2;
+
+	void Awake()
+	{
+		if (LogoScript.bGround == 1) 
+		{
+			this.guiTexture.enabled = true;
+		} 
+		else if (LogoScript.bGround !=1) 
+		{
+			this.guiTexture.enabled = false;
+		}
+	}
+}
+
+using UnityEngine;
+using System.Collections;
+
+public class BackGround3Script : MonoBehaviour {
+
+	static public bool bGround3;
+
+	void Awake()
+	{
+		if (LogoScript.bGround == 2) 
+		{
+			this.guiTexture.enabled = true;
+		} 
+		else if (LogoScript.bGround !=2) 
+		{
+			this.guiTexture.enabled = false;
+		}
+	}
+}
+
+using UnityEngine;
+using System.Collections;
+
+public class BackGroundDayScript : MonoBehaviour {
+
+	static public bool bGroundDay;
+
+	void Awake()
+	{
+		if (LogoScript.bGround == 3) 
+		{
+			this.guiTexture.enabled = true;
+		} 
+		else if (LogoScript.bGround !=3) 
+		{
+			this.guiTexture.enabled = false;
+		}
+	}
+}
