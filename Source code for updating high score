@@ -1,0 +1,26 @@
+using UnityEngine;
+using System.Collections;
+
+public class HighScoreScript : MonoBehaviour {
+
+	int score = 0;
+
+	// Use this for initialization
+	void Start () 
+	{
+		score = PlayerPrefs.GetInt ("Score");
+
+		if (score > PlayerPrefs.GetInt ("highscore")) 
+		{
+			PlayerPrefs.SetInt ("highscore", score);
+			GameObject.Find ("score-newbest-button").GetComponent<SpriteRenderer> ().enabled = true;
+			GameObject.Find ("score-best-button-new").GetComponent<SpriteRenderer> ().enabled = false;
+		} 
+		else 
+		{
+			GameObject.Find ("score-newbest-button").GetComponent<SpriteRenderer> ().enabled = false;
+			GameObject.Find ("score-best-button-new").GetComponent<SpriteRenderer> ().enabled = true;
+		}
+		this.guiText.text = "" + PlayerPrefs.GetInt ("highscore");
+	}
+}
