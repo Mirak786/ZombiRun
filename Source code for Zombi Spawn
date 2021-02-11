@@ -1,0 +1,63 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class SpawnScript : MonoBehaviour {
+
+
+	public GameObject points;
+	public GameObject[] obj;
+	public float spawnMin = 0.8f;
+	public float spawnMax = 1.2f;
+	public GameObject player;
+	GameObject ob;
+	GameObject po;
+
+	private List<GameObject> obs = new List<GameObject>();
+	private List<GameObject> poi = new List<GameObject>();
+
+	
+
+	void Start ()
+	{   
+		Spawn ();
+	}
+
+	void Spawn()
+	{   
+		float range = Random.Range (spawnMin, spawnMax);
+		ob = Instantiate(obj[Random.Range (0, obj.Length)], transform.position, Quaternion.identity) as GameObject;
+		po = Instantiate(points, transform.position, Quaternion.identity) as GameObject;
+
+		po.name = "PointsChecker";
+		ob.name = "obst";
+		obs.Add(ob);
+		poi.Add(po);
+		Invoke ("Spawn", range);
+
+	}
+	
+	void FixedUpdate()
+	{
+	    foreach(GameObject o in obs)
+		{       
+				if(o != null)
+				{   
+					o.rigidbody2D.velocity = new Vector2(-6.8f,o.rigidbody2D.velocity.y);
+					Destroy(o,3.5f);
+				}
+
+		}
+
+		foreach(GameObject p in poi)
+		{       
+			if(p != null)
+			{   
+				p.rigidbody2D.velocity = new Vector2(-6.8f,p.rigidbody2D.velocity.y);
+			}
+			
+		}
+	}
+
+
+}
