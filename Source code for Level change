@@ -1,0 +1,17 @@
+using UnityEngine;
+using System.Collections;
+
+public class FlashScript : MonoBehaviour {
+
+	
+	void Start()
+	{
+		StartCoroutine (changeScene ());
+	}
+	
+	IEnumerator changeScene()
+	{
+		yield return new WaitForSeconds (0.08f);
+		Application.LoadLevel (5);
+	}
+}
