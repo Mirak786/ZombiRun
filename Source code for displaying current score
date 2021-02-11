@@ -14,3 +14,18 @@ public class CurrentScoreScript : MonoBehaviour {
 		
 	}
 }
+
+using UnityEngine;
+using System.Collections;
+
+public class GuiScoreScript : MonoBehaviour {
+
+	int score = 0;
+
+	void Start()
+	{
+		
+		score = PlayerPrefs.GetInt ("Score");
+		guiText.text = "" + score;
+	}
+}
