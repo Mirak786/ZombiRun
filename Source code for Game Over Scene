@@ -1,0 +1,29 @@
+using UnityEngine;
+using System.Collections;
+
+public class GameOverScript : MonoBehaviour {
+
+	int score = 0;
+
+	void Start()
+	{
+		score = PlayerPrefs.GetInt ("Score");
+
+	}
+
+	void OnGUI()
+	{
+		GUI.Label (new Rect (Screen.width / 2 - 40, 50, 250, 30), "GAME OVER");
+		GUI.Label (new Rect (Screen.width / 2 - 40, 150, 250, 30), "Score: " + score);
+		if(score > PlayerPrefs.GetInt("highscore"))
+		{
+			PlayerPrefs.SetInt("highscore",score);
+		}
+		GUI.Label (new Rect(Screen.width / 2 - 40, 75, 250, 30), "High Score: " + PlayerPrefs.GetInt ("highscore"));
+		if(GUI.Button (new Rect(Screen.width / 2 - 30, 350, 300, 150), "Retry?"))
+		{
+			Application.LoadLevel(2);
+		}
+	}
+}
+
