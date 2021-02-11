@@ -1,0 +1,111 @@
+using UnityEngine;
+using System.Collections;
+
+public class CharacterMove : MonoBehaviour {
+
+	PlayerScoreScript score;
+	public float speed = 6.0f;
+	Transform groundCheck;
+	public bool inUnity = false;
+	private float overlapRadius = 0.2f;
+	public LayerMask whatIsGround;
+	private bool grounded = false;
+	private bool jump = false;
+	public float jumpForce = 700f;
+	private bool doubleJump = false;
+	static public int dJumpsCompleted = 0;
+	static public int sJumpsCompleted = 0;
+	private GameObject mob;
+	
+	void Awake()
+	{  
+		score = GameObject.Find ("Score").GetComponent<PlayerScoreScript>();
+		rigidbody2D.fixedAngle = true;
+	}
+	
+	void Start()
+	{
+		groundCheck = transform.Find ("groundcheck");
+	}
+	
+	void Update()
+	{ 
+		if (inUnity) 
+		{
+			if (Input.GetMouseButtonDown (0))
+			{
+				jump = true;
+				sJumpsCompleted++;
+				dJumpsCompleted = 0;
+				audio.Play ();
+			}
+		}
+
+
+		if (Input.touches.Length <= 0) {
+			
+		} 
+		else 
+		{
+			for (int i = 0; i < Input.touchCount; i++)
+			{
+				if (Input.GetTouch (i).phase == TouchPhase.Began) 
+				{
+					jump = true;
+					sJumpsCompleted++;
+					dJumpsCompleted = 0;
+					audio.Play ();	
+				}
+			}
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D coll)
+	{
+			if (coll.gameObject.name == "obst") 
+			{   
+				mob = GameObject.Find("mob-final").gameObject;
+				float mobPosX = mob.transform.position.x;
+				float mobPosY = mob.transform.position.y;
+				PlayerPrefs.SetFloat("MOBPOSX",mobPosX);
+				PlayerPrefs.SetFloat("MOBPOSY",mobPosY);
+				Application.LoadLevel(4);
+			}
+	}
+
+
+	void FixedUpdate()
+	{
+		
+		//check if character is grounded
+		grounded = Physics2D.OverlapCircle (groundCheck.position, overlapRadius, whatIsGround);
+		
+		//reset doublejump when player is on the ground
+		if (grounded)
+			doubleJump = false;
+		
+		//determine if player can jump
+		bool canJump = (grounded || !doubleJump);
+		
+		if (jump && canJump) 
+		{   
+			if(grounded)
+			{
+				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,0);
+				rigidbody2D.AddForce(new Vector2(0, jumpForce));
+			}
+			if(!grounded)
+			{   
+				rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x,0);
+				rigidbody2D.AddForce(new Vector2(0, 550f));
+				doubleJump = true;
+				dJumpsCompleted++;
+				sJumpsCompleted = 0;
+				audio.Play ();
+			}
+		}
+		
+		jump = false;
+
+	}
+}
