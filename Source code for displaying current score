@@ -1,0 +1,16 @@
+using UnityEngine;
+using System.Collections;
+
+public class CurrentScoreScript : MonoBehaviour {
+
+
+
+	int score = 0;
+	
+	void Start()
+	{
+		score = PlayerPrefs.GetInt ("Score");
+		this.guiText.text = "" + score;
+		
+	}
+}
