@@ -1,0 +1,101 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using Facebook;  
+
+
+public class initAndLoginToFB : MonoBehaviour {
+
+	public bool isEnabled;
+	public bool isLogged;
+	public string userId;
+	private int score;
+	private int highscore;
+
+	
+	void Awake()
+	{
+		isEnabled = false;
+		isLogged = false;
+		userId = "not received";
+	}
+
+	void Update()
+	{
+		score = PlayerPrefs.GetInt ("Score");
+		highscore = PlayerPrefs.GetInt ("highscore");
+	}
+
+	private void SetInitFB()
+	{
+		// This method method will be called withing the callback received by FB.Init()
+		isEnabled = true;
+	}
+	
+	private void SetAvailability(bool a_status)
+	{
+		// This method method will be called withing the callback received each time Unity gets or looses Focus (True/false)
+	}
+
+	void LogCallback(FBResult response) 
+	{
+		Debug.Log(response.Text);
+	}
+	
+	void LoginCallBack(FBResult result)
+	{
+		if (result.Error != null)
+		{
+			Debug.Log("Receive callback login error :: " + result.Error.ToString());
+		}
+		else
+		{
+			if (FB.IsLoggedIn)
+			{
+				// Case login was successful
+				isLogged = true;
+				userId = FB.UserId;
+				
+			}
+			else
+			{
+				// Case login failed (because of cancelling for example)
+				isLogged = false;
+			}
+		}
+	}
+		
+	void Start()
+	{
+		// Must call FB.Init Once
+		FB.Init(SetInitFB, SetAvailability);
+	}
+
+
+    public void Login()
+    {
+        FB.Login("email", LoginCallBack);
+    }
+
+    public void ShareOnFacebook()
+    {
+        FB.Feed(
+						link: "https://play.google.com/store/apps/details?id=com.ZombiRun&hl=en", // link to the game fx. on Google play 
+                        linkName: "Zombi Run",
+                        linkCaption: "Click here to find out more",
+                        linkDescription: "I just got a score of " + score.ToString() + " on Zombi Run!", 
+						picture: "http://gdurl.com/PkNG", // picture of the game , icon etc...
+                        callback: LogCallback
+                        );
+    }
+
+	public void InvitedFrensd()
+	{
+		FB.AppRequest
+		(
+				message: "Come play this great game!",
+				callback: LogCallback
+		);
+	}
+ 
+}
