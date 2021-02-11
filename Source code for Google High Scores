@@ -1,0 +1,75 @@
+using UnityEngine;
+using System.Collections;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
+
+public class LeaderBoardScript : MonoBehaviour {
+
+	public Texture normalButton;
+	public Texture pressedButton;
+
+	public static bool IsAuthenticated 
+	{
+		get {return Social.Active.localUser.authenticated;}
+	}
+
+	int score = 0;
+
+	void Awake()
+	{
+		PlayGamesPlatform.DebugLogEnabled = true;
+		PlayGamesPlatform.Activate ();
+	}
+
+	void Start()
+	{
+		score = PlayerPrefs.GetInt("Score");
+	}
+
+	void Update()
+	{
+		if (Input.touches.Length <= 0) {
+			
+		} 
+		else 
+		{
+			for(int i = 0; i < Input.touchCount; i++)
+			{
+				if(this.guiTexture.HitTest (Input.GetTouch (i).position))
+				{   
+
+					if(Input.GetTouch(i).phase == TouchPhase.Began)
+					{
+						this.guiTexture.texture = pressedButton;
+						//Handheld.Vibrate ();
+						audio.Play ();
+
+					}
+
+					else if(Input.GetTouch(i).phase == TouchPhase.Ended)
+					{
+						this.guiTexture.texture = normalButton;
+						if(IsAuthenticated) {
+							StartCoroutine(showLeaderboard());
+						} 
+						else 
+						{
+							Social.localUser.Authenticate (
+								(bool success) => {
+							});
+
+							StartCoroutine(showLeaderboard());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	IEnumerator showLeaderboard()
+	{
+		yield return new WaitForSeconds(0.5f);
+		Social.ShowLeaderboardUI();
+
+	}
+}
